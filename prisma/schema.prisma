@@ -13,10 +13,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  CREATOR
+  SPONSOR
+  CURATOR
+}
+
 model Content {
   id        String   @id @default(uuid())
   title     String
   body      String
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
+}
+
+model PersonalData {
+  id             String @id @default(uuid())
+  name           String
+  dateOfBirth    DateTime
+  phoneNumber    String
+  documentNumber String @unique
+  email          String @unique
+  address        String
+  cityState      String
+  country        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime? @updatedAt
+  createdBy      String
+  updatedBy      String?
+  role           UserRole
 }
