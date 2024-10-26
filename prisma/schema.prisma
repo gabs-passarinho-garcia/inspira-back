@@ -75,8 +75,8 @@ model Funding {
   id       String   @id @default(uuid())
   title     String
   description String
-  goal      Int
-  current   Int
+  goal      Decimal
+  current   Decimal
   deadline  DateTime
   author    String
   status    FundingStatus
@@ -95,10 +95,11 @@ model Funding {
 
 model FundingEntry {
   id       String   @id @default(uuid())
-  amount   Int
+  amount   Decimal
   sponsor   String
   funding  Funding  @relation(fields: [fundingId], references: [id])
   fundingId String
+  anonymous Boolean
 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt

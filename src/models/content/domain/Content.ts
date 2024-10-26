@@ -8,7 +8,7 @@ type ContentProps = {
   authorId: string;
   category: ContentCategory;
   status: ContentStatus;
-  fundingId?: unknown;
+  fundingId?: string;
 };
 
 export class Content {
@@ -19,7 +19,7 @@ export class Content {
   private readonly _authorId: string;
   private _category: ContentCategory;
   private _status: ContentStatus;
-  private readonly _fundingId?: unknown;
+  private readonly _fundingId?: string;
 
   private constructor(props: ContentProps) {
     this._id = props.id;
