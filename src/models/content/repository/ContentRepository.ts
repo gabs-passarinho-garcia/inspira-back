@@ -1,5 +1,6 @@
 import { PrismaHandler } from '@/shared/providers/prisma/PrismaHandler';
 import { Content } from '../domain';
+import { Prisma } from '@prisma/client';
 
 export class ContentRepository {
   public static async getById(data: { id: string }): Promise<Content | null> {
@@ -21,7 +22,7 @@ export class ContentRepository {
       title: content.title,
       place: content.place,
       description: content.description,
-      authorId: content.author,
+      authorId: content.authorId,
       category: content.category,
       status: content.status,
       fundingId: content.Funding?.id,
@@ -41,7 +42,7 @@ export class ContentRepository {
         title: content.title,
         place: content.place,
         description: content.description,
-        authorId: content.author,
+        authorId: content.authorId,
         category: content.category,
         status: content.status,
         fundingId: content.Funding?.id,
@@ -49,14 +50,24 @@ export class ContentRepository {
     );
   }
 
-  public static async create(data: { content: Content }): Promise<void> {
-    await PrismaHandler.client.content.create({
+  public static async create(
+    data: { content: Content },
+    options?: {
+      tx?: Prisma.TransactionClient;
+    },
+  ): Promise<void> {
+    const tx = options?.tx ?? PrismaHandler.client;
+    await tx.content.create({
       data: {
         id: data.content.id,
         title: data.content.title,
         place: data.content.place,
         description: data.content.description,
-        author: data.content.authorId,
+        author: {
+          connect: {
+            id: data.content.authorId,
+          },
+        },
         category: data.content.category,
         status: data.content.status,
         createdBy: 'API',
@@ -64,8 +75,15 @@ export class ContentRepository {
     });
   }
 
-  public static async update(data: { content: Content }): Promise<void> {
-    await PrismaHandler.client.content.update({
+  public static async update(
+    data: { content: Content },
+    options?: {
+      tx?: Prisma.TransactionClient;
+    },
+  ): Promise<void> {
+    const tx = options?.tx ?? PrismaHandler.client;
+
+    await tx.content.update({
       where: {
         id: data.content.id,
       },

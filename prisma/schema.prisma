@@ -64,7 +64,8 @@ model Content {
   title     String
   place     String
   description String
-  author    String
+  author    User @relation(fields: [authorId], references: [id])
+  authorId  String
   category  ContentCategory
   status    ContentStatus
 
@@ -84,7 +85,8 @@ model Funding {
   goal      Decimal
   current   Decimal
   deadline  DateTime
-  author    String
+  author    User @relation(fields: [authorId], references: [id])
+  authorId  String
   status    FundingStatus
   type      FundingType
 
@@ -100,10 +102,11 @@ model Funding {
 }
 
 model FundingEntry {
-  id       String   @id @default(uuid())
-  amount   Decimal
-  sponsor   String
-  funding  Funding  @relation(fields: [fundingId], references: [id])
+  id        String   @id @default(uuid())
+  amount    Decimal
+  sponsor   User @relation(fields: [sponsorId], references: [id])
+  sponsorId String
+  funding   Funding  @relation(fields: [fundingId], references: [id])
   fundingId String
   anonymous Boolean
 
@@ -128,4 +131,8 @@ model User {
   createdBy      String
   updatedBy      String?
   role           UserTypeRole
+
+  FundingEntries FundingEntry[]
+  Fundings        Funding[]
+  Contents        Content[]
 }

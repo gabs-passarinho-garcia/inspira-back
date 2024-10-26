@@ -58,7 +58,7 @@ export class Content {
     return this._category;
   }
 
-  get fundingId(): unknown {
+  get fundingId(): string | undefined {
     return this._fundingId;
   }
 

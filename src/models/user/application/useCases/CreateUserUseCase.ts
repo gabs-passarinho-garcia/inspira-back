@@ -1,12 +1,15 @@
-import { UserRepository } from "../../repository";
-import { User } from "../../domain";
-import type { CreateUserInput, UserOutput } from "../dto";
+import { UserRepository } from '../../repository';
+import { User } from '../../domain';
+import type { CreateUserInput, UserOutput } from '../dto';
+import { Prisma } from '@prisma/client';
 
-
-
-export class CreateUserUseCase{
-
-  public static async execute(data: CreateUserInput): Promise<UserOutput> {
+export class CreateUserUseCase {
+  public static async execute(
+    data: CreateUserInput,
+    options?: {
+      tx?: Prisma.TransactionClient;
+    },
+  ): Promise<UserOutput> {
     const user = User.create({
       id: crypto.randomUUID(),
       name: data.name,
@@ -22,18 +25,12 @@ export class CreateUserUseCase{
       createdBy: 'API',
       updatedBy: 'API',
       role: data.role,
-      
     });
 
-    await UserRepository.create({user});
+    await UserRepository.create({ user }, options);
 
     return {
       user,
     };
   }
-
 }
-
-
-
-
