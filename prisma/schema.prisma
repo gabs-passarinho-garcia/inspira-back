@@ -13,10 +13,126 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserTypeRole {
+  CREATOR
+  SPONSOR
+  CURATOR
+}
+
+enum ContentCategory {
+  FILM
+  VIDEO
+  DESIGN
+  FASHION
+  PHOTOGRAPHY
+  GAME
+  MUSIC
+  PODCAST
+  COMICS
+  LITERATURE
+  THEATER
+  DANCE
+  OTHER
+}
+
+enum FundingStatus {
+  PENDING
+  ONGOING
+  SUCCESSFUL
+  FAILED
+  CANCELED
+}
+
+enum FundingType {
+  ALL_OR_NOTHING
+  KEEP_IT_ALL
+}
+
+enum ContentStatus {
+  WAITING_IA_APPROVAL
+  WAITING_CURATOR_APPROVAL
+  IA_REJECTED
+  CURATOR_REJECTED
+  WAITING_FUNDING
+  FUNDED
+  PRODUCING
+  PUBLISHED
+}
+
 model Content {
   id        String   @id @default(uuid())
   title     String
-  body      String
+  place     String
+  description String
+  author    User @relation(fields: [authorId], references: [id])
+  authorId  String
+  category  ContentCategory
+  status    ContentStatus
+
+  Funding   Funding? @relation("funding_content")
+
+
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
+  createdBy String
+  updatedBy String?
+}
+
+model Funding {
+  id       String   @id @default(uuid())
+  title     String
+  description String
+  goal      Decimal
+  current   Decimal
+  deadline  DateTime
+  author    User @relation(fields: [authorId], references: [id])
+  authorId  String
+  status    FundingStatus
+  type      FundingType
+
+  Content   Content  @relation("funding_content", fields: [contentId], references: [id])
+  contentId String @unique
+
+  entries   FundingEntry[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  createdBy String
+  updatedBy String?
+}
+
+model FundingEntry {
+  id        String   @id @default(uuid())
+  amount    Decimal
+  sponsor   User @relation(fields: [sponsorId], references: [id])
+  sponsorId String
+  funding   Funding  @relation(fields: [fundingId], references: [id])
+  fundingId String
+  anonymous Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  createdBy String
+  updatedBy String?
+}
+
+model User {
+  id             String @id @default(uuid())
+  name           String
+  dateOfBirth    DateTime
+  phoneNumber    String
+  documentNumber String @unique
+  email          String @unique
+  address        String
+  cityState      String
+  country        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime? @updatedAt
+  createdBy      String
+  updatedBy      String?
+  role           UserTypeRole
+
+  FundingEntries FundingEntry[]
+  Fundings        Funding[]
+  Contents        Content[]
 }
