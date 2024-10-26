@@ -20,7 +20,7 @@ export interface ListUserOutput {
     users: UserOutput['user'][];
 }
 
-export interface GetUnserInput {
+export interface GetUserInput {
     id: string;
 }
 

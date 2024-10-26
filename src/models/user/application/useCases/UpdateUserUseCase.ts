@@ -19,8 +19,8 @@ export class UpdateUserUseCase {
     address: data.address;
     cityState: data.cityState;
     country: data.country;
-    createdAt: new Date;
-    updatedAt: new Date;
+    createdAt: new Date();
+    updatedAt: new Date();
     createdBy: "API";
     updatedBy: "API";
     role: data.role;
