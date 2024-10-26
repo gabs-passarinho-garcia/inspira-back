@@ -24,7 +24,7 @@ export class ContentRepository {
       authorId: content.author,
       category: content.category,
       status: content.status,
-      fundingId: content.Funding,
+      fundingId: content.Funding?.id,
     });
   }
 
@@ -44,7 +44,7 @@ export class ContentRepository {
         authorId: content.author,
         category: content.category,
         status: content.status,
-        fundingId: content.Funding,
+        fundingId: content.Funding?.id,
       }),
     );
   }
