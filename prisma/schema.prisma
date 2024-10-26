@@ -13,10 +13,82 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ContentCategory {
+  FILM
+  VIDEO
+  DESIGN
+  FASHION
+  PHOTOGRAPHY
+  GAME
+  MUSIC
+  PODCAST
+  COMICS
+  LITERATURE
+  THEATER
+  DANCE
+  OTHER
+}
+
+enum FundingStatus {
+  PENDING
+  ONGOING
+  SUCCESS
+  FAIL
+}
+
+enum FundingType {
+  ALL_OR_NOTHING
+  KEEP_IT_ALL
+}
+
 model Content {
   id        String   @id @default(uuid())
   title     String
-  body      String
+  place     String
+  description String
+  author    String
+  category  ContentCategory
+
+  Funding   Funding? @relation("funding_content")
+
+
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
+  createdBy String
+  updatedBy String?
+}
+
+model Funding {
+  id       String   @id @default(uuid())
+  title     String
+  description String
+  goal      Int
+  current   Int
+  deadline  DateTime
+  author    String
+  status    FundingStatus
+  type      FundingType
+
+  Content   Content  @relation("funding_content", fields: [contentId], references: [id])
+  contentId String @unique
+
+  entries   FundingEntry[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  createdBy String
+  updatedBy String?
+}
+
+model FundingEntry {
+  id       String   @id @default(uuid())
+  amount   Int
+  sponsor   String
+  funding  Funding  @relation(fields: [fundingId], references: [id])
+  fundingId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  createdBy String
+  updatedBy String?
 }
