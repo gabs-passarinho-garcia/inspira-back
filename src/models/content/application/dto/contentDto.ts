@@ -1,4 +1,4 @@
-import { ContentCategory } from '@/shared/enum';
+import { ContentCategory, ContentStatus } from '@/shared/enum';
 
 export interface ContentOutput {
   content: {
@@ -7,7 +7,8 @@ export interface ContentOutput {
     place: string;
     description: string;
     authorId: string;
-    category: string;
+    category: ContentCategory;
+    status: ContentStatus;
     funding?: unknown;
   };
 }
@@ -26,6 +27,7 @@ export interface CreateContentInput {
   description: string;
   authorId: string;
   category: ContentCategory;
+  status: ContentStatus;
 }
 
 export interface UpdateContentInput {
@@ -33,5 +35,6 @@ export interface UpdateContentInput {
   title: string;
   place: string;
   description: string;
+  status: ContentStatus;
   category: ContentCategory;
 }

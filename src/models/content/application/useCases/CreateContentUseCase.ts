@@ -11,6 +11,7 @@ export class CreateContentUseCase {
       description: data.description,
       authorId: data.authorId,
       category: data.category,
+      status: data.status,
     });
 
     await ContentRepository.create({ content });

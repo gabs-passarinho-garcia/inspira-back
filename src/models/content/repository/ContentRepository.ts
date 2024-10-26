@@ -23,7 +23,8 @@ export class ContentRepository {
       description: content.description,
       authorId: content.author,
       category: content.category,
-      funding: content.Funding,
+      status: content.status,
+      fundingId: content.Funding,
     });
   }
 
@@ -42,7 +43,8 @@ export class ContentRepository {
         description: content.description,
         authorId: content.author,
         category: content.category,
-        funding: content.Funding,
+        status: content.status,
+        fundingId: content.Funding,
       }),
     );
   }
@@ -56,6 +58,7 @@ export class ContentRepository {
         description: data.content.description,
         author: data.content.authorId,
         category: data.content.category,
+        status: data.content.status,
         createdBy: 'API',
       },
     });
@@ -71,6 +74,8 @@ export class ContentRepository {
         place: data.content.place,
         description: data.content.description,
         category: data.content.category,
+        status: data.content.status,
+        updatedBy: 'API',
       },
     });
   }

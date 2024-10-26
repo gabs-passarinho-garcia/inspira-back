@@ -1,4 +1,4 @@
-import type { ContentCategory } from '@/shared/enum';
+import type { ContentCategory, ContentStatus } from '@/shared/enum';
 
 type ContentProps = {
   id: string;
@@ -7,7 +7,8 @@ type ContentProps = {
   description: string;
   authorId: string;
   category: ContentCategory;
-  funding?: unknown;
+  status: ContentStatus;
+  fundingId?: unknown;
 };
 
 export class Content {
@@ -17,6 +18,7 @@ export class Content {
   private _description: string;
   private readonly _authorId: string;
   private _category: ContentCategory;
+  private _status: ContentStatus;
   private readonly _fundingId?: unknown;
 
   private constructor(props: ContentProps) {
@@ -26,7 +28,8 @@ export class Content {
     this._description = props.description;
     this._authorId = props.authorId;
     this._category = props.category;
-    this._fundingId = props.funding;
+    this._status = props.status;
+    this._fundingId = props.fundingId;
   }
 
   // Getters
@@ -59,6 +62,10 @@ export class Content {
     return this._fundingId;
   }
 
+  get status(): ContentStatus {
+    return this._status;
+  }
+
   // Setters
 
   set id(value: string) {
@@ -81,8 +88,25 @@ export class Content {
     this._category = value;
   }
 
+  set status(value: ContentStatus) {
+    this._status = value;
+  }
+
   // Static factory
   public static create(props: ContentProps): Content {
     return new Content(props);
+  }
+
+  public toJSON(): ContentProps {
+    return {
+      id: this._id,
+      title: this._title,
+      place: this._place,
+      description: this._description,
+      authorId: this._authorId,
+      category: this._category,
+      status: this._status,
+      fundingId: this._fundingId,
+    };
   }
 }

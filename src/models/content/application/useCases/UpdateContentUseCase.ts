@@ -13,6 +13,7 @@ export class UpdateContentUseCase {
     content.place = data.place;
     content.description = data.description;
     content.category = data.category;
+    content.status = data.status;
 
     await ContentRepository.update({ content });
 
