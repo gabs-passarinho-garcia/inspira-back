@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  inspira-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: inspira
+      POSTGRES_PASSWORD: inspira102030
+      POSTGRES_DB: inspira-db
+    ports:
+      - '5432:5432'
