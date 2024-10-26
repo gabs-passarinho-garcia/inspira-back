@@ -8,23 +8,23 @@ import { FundingStatusEnum } from '@/shared/enum';
 
 export class SignupService {
   public static async execute(data: SignupInput): Promise<{
-    user: UserOutput;
-    content: ContentOutput;
-    funding: FundingOutput;
+    user: UserOutput['user'];
+    content: ContentOutput['content'];
+    funding: FundingOutput['funding'];
     approved: boolean;
   }> {
     return await PrismaHandler.client.$transaction(async tx => {
-      const user = await CreateUserUseCase.execute({ ...data.user }, { tx });
+      const { user } = await CreateUserUseCase.execute({ ...data.user }, { tx });
 
       if (!user) {
         throw new Error('Error creating user');
       }
 
-      const content = await CreateContentUseCase.execute(
+      const { content } = await CreateContentUseCase.execute(
         {
           ...data.content,
           status: ContentStatus.WAITING_IA_APPROVAL,
-          authorId: user.user.id,
+          authorId: user.id,
         },
         { tx },
       );
@@ -33,16 +33,16 @@ export class SignupService {
         throw new Error('Error creating content');
       }
 
-      const funding = await CreateFundingUseCase.execute(
+      const { funding } = await CreateFundingUseCase.execute(
         {
           title: data.funding.title,
           description: data.funding.description,
           goal: data.funding.goal,
           deadline: data.funding.deadline,
-          authorId: user.user.id,
+          authorId: user.id,
           status: FundingStatusEnum.PENDING,
           type: data.funding.type,
-          contentId: content.content.id,
+          contentId: content.id,
         },
         { tx },
       );
@@ -53,7 +53,7 @@ export class SignupService {
 
       await UpdateContentUseCase.execute(
         {
-          id: content.content.id,
+          id: content.id,
           status: ContentStatus.WAITING_CURATOR_APPROVAL,
         },
         { tx },

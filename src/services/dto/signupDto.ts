@@ -12,7 +12,7 @@ const CreateUserInputSchema = z
     dateOfBirth: z.coerce.date().openapi({
       title: 'DateOfBirth',
       description: 'Data de nascimento do usuário',
-      example: '1990-01-01',
+      example: '1990-01-01T00:00:00.000Z',
       type: 'string',
     }),
     phoneNumber: z.string().openapi({
@@ -128,7 +128,7 @@ export const CreateFundingInputSchema = z
     }),
     deadline: z.string().datetime().openapi({
       description: 'Deadline for the funding',
-      example: '2024-12-31',
+      example: '2024-12-31T00:00:00.000Z',
       type: 'string',
       format: 'date',
     }),
