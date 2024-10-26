@@ -23,14 +23,14 @@ export class FundingRepository {
       goal: funding.goal.toNumber(),
       current: funding.current.toNumber(),
       deadline: funding.deadline.toISOString(),
-      authorId: funding.author,
+      authorId: funding.authorId,
       status: funding.status,
       type: funding.type,
       contentId: funding.contentId,
       entries: funding.entries.map(entry => ({
         id: entry.id,
         amount: entry.amount.toNumber(),
-        sponsorId: entry.sponsor,
+        sponsorId: entry.sponsorId,
         fundingId: entry.fundingId,
         anonymous: entry.anonymous,
       })),
@@ -52,14 +52,14 @@ export class FundingRepository {
         goal: funding.goal.toNumber(),
         current: funding.current.toNumber(),
         deadline: funding.deadline.toISOString(),
-        authorId: funding.author,
+        authorId: funding.authorId,
         status: funding.status,
         type: funding.type,
         contentId: funding.contentId,
         entries: funding.entries.map(entry => ({
           id: entry.id,
           amount: entry.amount.toNumber(),
-          sponsorId: entry.sponsor,
+          sponsorId: entry.sponsorId,
           fundingId: entry.fundingId,
           anonymous: entry.anonymous,
         })),
@@ -76,7 +76,9 @@ export class FundingRepository {
         goal: data.funding.goal,
         current: data.funding.current,
         deadline: data.funding.deadline,
-        author: data.funding.authorId,
+        author: {
+          connect: { id: data.funding.authorId },
+        },
         status: data.funding.status,
         type: data.funding.type,
         Content: {
@@ -88,7 +90,9 @@ export class FundingRepository {
             create: {
               id: entry.id,
               amount: entry.amount,
-              sponsor: entry.sponsorId,
+              sponsor: {
+                connect: { id: entry.sponsorId },
+              },
               anonymous: entry.anonymous,
               createdBy: 'API',
             },
@@ -129,7 +133,9 @@ export class FundingRepository {
             create: {
               id: entry.id,
               amount: entry.amount,
-              sponsor: entry.sponsorId,
+              sponsor: {
+                connect: { id: entry.sponsorId },
+              },
               anonymous: entry.anonymous,
               createdBy: 'API',
             },
