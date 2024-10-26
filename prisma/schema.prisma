@@ -32,8 +32,9 @@ enum ContentCategory {
 enum FundingStatus {
   PENDING
   ONGOING
-  SUCCESS
-  FAIL
+  SUCCESSFUL
+  FAILED
+  CANCELED
 }
 
 enum FundingType {
