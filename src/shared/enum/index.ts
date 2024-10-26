@@ -3,3 +3,4 @@ export * from './FundingStatus';
 export * from './FundingType';
 export * from './HttpStatus';
 export * from './ContentStatus';
+export * from './UserTypeRole';

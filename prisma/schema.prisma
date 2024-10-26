@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserTypeRole {
+  CREATOR
+  SPONSOR
+  CURATOR
+}
+
 enum ContentCategory {
   FILM
   VIDEO
@@ -105,4 +111,21 @@ model FundingEntry {
   updatedAt DateTime? @updatedAt
   createdBy String
   updatedBy String?
+}
+
+model User {
+  id             String @id @default(uuid())
+  name           String
+  dateOfBirth    DateTime
+  phoneNumber    String
+  documentNumber String @unique
+  email          String @unique
+  address        String
+  cityState      String
+  country        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime? @updatedAt
+  createdBy      String
+  updatedBy      String?
+  role           UserTypeRole
 }
