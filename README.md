@@ -1,2 +1,11 @@
-# inspira-back
-Project created to HACK2024 ATL
+To install dependencies:
+```sh
+bun install
+```
+
+To run:
+```sh
+bun run dev
+```
+
+open http://localhost:3000
