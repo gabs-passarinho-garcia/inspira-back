@@ -2,7 +2,7 @@
   "name": "inspira-back",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
-    "prod": "bun run src/index.ts",
+    "prod": "bun db:deploy && bun run src/index.ts",
     "check": "bunx --bun tsc --noEmit",
     "db:update": "bunx prisma migrate dev",
     "db:deploy": "bunx prisma migrate deploy",
