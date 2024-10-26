@@ -1,5 +1,6 @@
 import { PrismaHandler } from '@/shared/providers/prisma/PrismaHandler';
 import { Content } from '../domain';
+import { Prisma } from '@prisma/client';
 
 export class ContentRepository {
   public static async getById(data: { id: string }): Promise<Content | null> {
@@ -49,8 +50,14 @@ export class ContentRepository {
     );
   }
 
-  public static async create(data: { content: Content }): Promise<void> {
-    await PrismaHandler.client.content.create({
+  public static async create(
+    data: { content: Content },
+    options?: {
+      tx?: Prisma.TransactionClient;
+    },
+  ): Promise<void> {
+    const tx = options?.tx ?? PrismaHandler.client;
+    await tx.content.create({
       data: {
         id: data.content.id,
         title: data.content.title,
@@ -68,8 +75,15 @@ export class ContentRepository {
     });
   }
 
-  public static async update(data: { content: Content }): Promise<void> {
-    await PrismaHandler.client.content.update({
+  public static async update(
+    data: { content: Content },
+    options?: {
+      tx?: Prisma.TransactionClient;
+    },
+  ): Promise<void> {
+    const tx = options?.tx ?? PrismaHandler.client;
+
+    await tx.content.update({
       where: {
         id: data.content.id,
       },
